@@ -132,16 +132,21 @@ class _TunePageState extends State<TunePage> {
         // color: Colors.grey.shade200,
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/bg8.png"),
+              image: AssetImage("assets/images/ScreenTune.png"),
               fit: BoxFit.cover
           ),
         ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-          child: Align(
-            alignment: Alignment.center,
-            child: Text("نعزف لحناً"),
-          ),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+              child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: null
+              ),
+            ),
+            _buttonPreview(100.0, 100.0)
+          ],
         ),
       ),
       floatingActionButton: Container(
@@ -157,6 +162,28 @@ class _TunePageState extends State<TunePage> {
             backgroundColor: _isListening ? Colors.green : Colors.blue,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buttonPreview(double _height, double _width) {
+    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+      minimumSize: Size(_width, _height),
+      // backgroundColor: Colors.grey,
+      padding: EdgeInsets.all(20),
+    );
+    return TextButton(
+      style: flatButtonStyle,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => StartPage()),
+        );
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        child: Image(
+            image: AssetImage('assets/images/home.png'), height: 70),
       ),
     );
   }

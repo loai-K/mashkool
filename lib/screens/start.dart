@@ -12,6 +12,7 @@ import './tune.dart';
 import './listen.dart';
 import './mystery.dart';
 import './game.dart';
+import './setting.dart';
 
 enum PlayerState { stopped, playing, paused }
 
@@ -145,15 +146,20 @@ class _StartPageState extends State<StartPage> {
               fit: BoxFit.cover
           ),
         ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: _gender == "male" ?
-            Image(image: AssetImage('assets/images/mashkool-2.png'), height: 350) :
-            Image(image: AssetImage('assets/images/mashkoola.png'), height: 350),
-          ),
-        ),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: _gender == "male" ?
+                Image(image: AssetImage('assets/images/mashkool-2.png'), height: 350) :
+                Image(image: AssetImage('assets/images/mashkoola.png'), height: 350),
+              ),
+            ),
+            _buttonPreview(100.0, 100.0)
+          ],
+        )
     ),
     floatingActionButton: Container(
       height: 80.0,
@@ -169,6 +175,28 @@ class _StartPageState extends State<StartPage> {
         ),
       ),
     ),
+    );
+  }
+
+  Widget _buttonPreview(double _height, double _width) {
+    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+      minimumSize: Size(_width, _height),
+      // backgroundColor: Colors.grey,
+      padding: EdgeInsets.all(20),
+    );
+    return TextButton(
+      style: flatButtonStyle,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SettingPage()),
+        );
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        child: Image(
+            image: AssetImage('assets/images/setting-btn.png'), height: 70),
+      ),
     );
   }
 
