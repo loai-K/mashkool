@@ -162,7 +162,7 @@ class _StartPageState extends State<StartPage> {
         child: FloatingActionButton(
           // When the user presses the button, show an alert dialog containing
           // the text that the user has entered into the text field.
-          onPressed: _speechRecognitionAvailable && !_isListening ? () => startSpeech() : () => cancelSpeech(),
+          onPressed: () => _speechRecognitionAvailable && !_isListening ? startSpeech() : cancelSpeech(),
           tooltip: 'اضغط لتتحدث',
           child: const Icon(Icons.mic),
           backgroundColor: _isListening ? Colors.green : Colors.blue,
@@ -209,71 +209,69 @@ class _StartPageState extends State<StartPage> {
 
   void onRecognitionResult(String text) {
     setState(() => _textInput = text);
+    _identifyLanguage(text);
 
-    if (!_isListening) {
-      if(text.isEmpty) {
-        _musicPlay('assets/sounds/noSound.mp3', 1.0);
-      }
-      else {
-        _identifyLanguage(text);
+    if(!_isListening && text.isEmpty) {
+      _musicPlay('assets/sounds/noSound.mp3', 1.0);
+      return;
+    }
 
-        if('${_identifiedLanguage[0]}${_identifiedLanguage[1]}' != 'ar') {
-          _musicPlay('assets/sounds/talkArabic.mp3', 1.0);
-        }
-      }
+    if('${_identifiedLanguage[0]}${_identifiedLanguage[1]}' != 'ar') {
+      _musicPlay('assets/sounds/talkArabic.mp3', 1.0);
+      return;
+    }
 
-      switch(_textInput) {
-        case "قصة":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => StoryPage()),
-          );
-          break;
-        case "قصه":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => StoryPage()),
-          );
-          break;
-        case "لعبة":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => GamePage()),
-          );
-          break;
-        case "نلعب":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => GamePage()),
-          );
-          break;
-        case "لغز":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MysteryPage()),
-          );
-          break;
-        case "لحن":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => TunePage()),
-          );
-          break;
-        case "ساعدني":
-          playActions();
-          break;
-        case "مساعدة":
-          playActions();
-          break;
-        case "وداعا":
-          SystemNavigator.pop();
-          break;
-        case "نام":
-          SystemNavigator.pop();
-          break;
-        default:
-          _musicPlay('assets/sounds/repeat.mp3', 1.0);
-      }
+    switch(text) {
+      case "قصة":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => StoryPage()),
+        );
+        break;
+      case "قصه":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => StoryPage()),
+        );
+        break;
+      case "لعبة":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GamePage()),
+        );
+        break;
+      case "نلعب":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GamePage()),
+        );
+        break;
+      case "لغز":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MysteryPage()),
+        );
+        break;
+      case "لحن":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TunePage()),
+        );
+        break;
+      case "ساعدني":
+        playActions();
+        break;
+      case "مساعدة":
+        playActions();
+        break;
+      case "وداعا":
+        SystemNavigator.pop();
+        break;
+      case "نام":
+        SystemNavigator.pop();
+        break;
+      default:
+        _musicPlay('assets/sounds/repeat.mp3', 1.0);
     }
   }
 
